@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- Metadados -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+
+    <!-- Folha de estilos do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos CSS personalizados -->
+    <style>
+        .container-fluid {
+            background-color: #ffc107;
+            text-align: center; /* Adicionado para centralizar o título */
+        }
+
+        /* Estilos adicionais para o título */
+        h1 {
+            font-size: 2.5rem; /* Tamanho grande */
+            margin-top: 20px; /* Espaço superior */
+            margin-bottom: 20px; /* Espaço inferior */
+        }
+    </style>
+</head>
+
+<body onload="preencheCatalogo()">
+    <!-- Container principal -->
+    <div class="container-fluid">
+        <!-- Título da página -->
+        <h1>Catálogo de Receitas</h1>
+        
+        <!-- Div para exibição dinâmica dos cards de receitas -->
+        <div id="pnlCatalogo" style="display: flex; flex-wrap: wrap;"></div>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>    
+        // Dados das receitas
+        const receitas = [
+            {
+                titulo: "Frango com Quiabo",
+                imagem: "Frango003.png",
+                preparo: "Cozinhe o frango com quiabo e temperos, até que fique macio. Sirva quente.",
+                ingredientes: ["1 frango inteiro", "Quiabo a gosto", "Temperos diversos"]
+            },
+            {
+                titulo: "Feijão Tropeiro",
+                imagem: "feijao002.png",
+                preparo: "Misture o feijão cozido com bacon, farinha de mandioca e temperos. Refogue até ficar bem misturado.",
+                ingredientes: ["Feijão cozido", "Bacon", "Farinha de mandioca", "Temperos a gosto"]
+            },
+            {
+                titulo: "Pão de Queijo",
+                imagem: "pão001.png",
+                preparo: "Misture o polvilho, queijo, leite e óleo até formar uma massa. Faça bolinhas e asse até dourar.",
+                ingredientes: ["Polvilho", "Queijo", "Leite", "Óleo"]
+            }
+        ];
+
+        // Função para criar uma lista de ingredientes
+        function getListaIngredientes(receita) {
+            return `<ul>${receita.ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).reduce((acc, curr) => acc + curr, '')}</ul>`;
+        }
+
+        // Função para criar o HTML de um card de receita
+        function getCard(receita) {
+            return `
+            <div class="card" style="width: 250px; margin: 10px;">
+                <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                <div class="card-body">
+                    <h5 class="card-title">${receita.titulo}</h5>
+                    <div class="card-text">
+                        ${getListaIngredientes(receita)}
+                        <hr>
+                        <p>${receita.preparo}</p>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // Função para preencher o catálogo de receitas na página
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById('pnlCatalogo');
+            const htmlReceitas = receitas.map(receita => getCard(receita)).reduce((acc, curr) => acc + curr, '');
+            pnlCatalogo.innerHTML = htmlReceitas;
+        }
+    </script>
+</body>
+
+</html>

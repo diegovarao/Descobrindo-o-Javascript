@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- Meta tags para definir o conjunto de caracteres e a largura da viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da página -->
+    <title>G0009 - Descobrindo o JavaScript</title>
+    <!-- Inclusão do script JavaScript que contém as funções de ordenação -->
+    <script src="./ordenado.js"></script>
+</head>
+<body>
+    <!--Títudo de cabeçalho-->
+    <h1>Ordenando Valores</h1>
+    <!-- Input e botão para adicionar valores -->
+    <label for="valor">Valor:</label>
+    <input type="number" id="valor">
+    <button onclick="add()">Adicionar</button>
+    <br><br>
+    <!-- Dropdown para selecionar o algoritmo de ordenação -->
+    <select id="algoritmo">
+        <option value="bubble">Bubble Sort</option>
+        <option value="selection">Selection Sort</option>
+        <option value="quick" selected>Quick Sort</option>
+    </select>
+    <!-- Botões para ordenar e misturar os valores -->
+    <button onclick="ordenar()">Ordenar</button>
+    <button onclick="misturar()">Misturar</button>
+    <!-- Lista para exibir os valores adicionados -->
+    <ul id="valores"></ul>
+
+    <!-- Script JavaScript que define as funções de interação com a página -->
+    <script>
+        // Função para adicionar valores à lista
+        function add() {
+            const valorInput = document.getElementById('valor');
+            const valoresList = document.getElementById('valores');
+            const node = document.createElement('li');
+            const textNode = document.createTextNode(valorInput.value);
+            node.appendChild(textNode);
+            valoresList.appendChild(node);
+        }
+
+        // Função para ordenar os valores utilizando o algoritmo selecionado
+        function ordenar() {
+            const valoresList = document.getElementById('valores');
+            const algoritmo = document.getElementById('algoritmo').value;
+            const valores = Array.from(valoresList.children).map(item => parseInt(item.innerHTML));
+            
+            // Seleção do algoritmo de ordenação e chamada da função correspondente
+            switch (algoritmo) {
+                case 'bubble':
+                    bubble_sort(valores);
+                    break;
+                case 'selection':
+                    selection_sort(valores);
+                    break;
+                case 'quick':
+                    quick_sort(valores, 0, valores.length - 1);
+                    break;
+            }
+
+            // Limpeza da lista antes de adicionar os valores ordenados
+            valoresList.innerHTML = '';
+
+            // Adição dos valores ordenados como novos itens à lista
+            valores.forEach(item => {
+                const node = document.createElement('li');
+                const textNode = document.createTextNode(item);
+                node.appendChild(textNode);
+                valoresList.appendChild(node);
+            });
+        }
+
+        // Função para misturar os valores na lista
+        function misturar() {
+            const valoresList = document.getElementById('valores');
+            const valores = Array.from(valoresList.children).map(item => parseInt(item.innerHTML));
+            shuffle(valores, 1000);
+
+            // Limpeza da lista antes de adicionar os valores misturados
+            valoresList.innerHTML = '';
+
+            // Adição dos valores misturados como novos itens à lista
+            valores.forEach(item => {
+                const node = document.createElement('li');
+                const textNode = document.createTextNode(item);
+                node.appendChild(textNode);
+                valoresList.appendChild(node);
+            });
+        }
+    </script>
+</body>
+</html>
